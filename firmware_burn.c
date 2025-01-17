@@ -6,6 +6,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include "lcd_firmware.h"
+#include "ebf410177_firmware.h"
 #include "ebf410574_firmware.h"
 #include "ebf410575_firmware.h"
 
@@ -14,6 +15,7 @@
 
 
 static struct board_info *board_info[] = {
+    &ebf410177,
     &ebf410574,
     &ebf410575,
     NULL,
