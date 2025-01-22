@@ -6,6 +6,8 @@
 #include <string.h>
 #include <stdlib.h>
 #include "lcd_firmware.h"
+#include "ebf410125_firmware.h"
+#include "ebf410173_firmware.h"
 #include "ebf410177_firmware.h"
 #include "ebf410574_firmware.h"
 #include "ebf410575_firmware.h"
@@ -15,6 +17,8 @@
 
 
 static struct board_info *board_info[] = {
+    &ebf410125,
+    &ebf410173,
     &ebf410177,
     &ebf410574,
     &ebf410575,
@@ -183,12 +187,40 @@ int main(int argc, char **argv)
 {
     int fd;
     int ret;
+    int i;
     struct lcd_firmware *firmware;
+
+    if ((argc == 2 && argv[1] != NULL) || argc > 2) {
+        if (strcmp(argv[1], "--help") == 0 || argc > 2) {
+            printf("Usage: %s\n", argv[0]);
+            printf("       %s [board number]\n", argv[0]);
+            printf("       %s --help\n", argv[0]);
+            return 0;
+        } 
+    }
 
     fd = open(NVMEM_PATH, O_RDWR);
     if (fd < 0) {
         printf("open %s failed\n", NVMEM_PATH);
         return -1;
+    }
+
+    if (argc == 2 && argv[1] != NULL) {
+        i = strtol(argv[1], NULL, 10);
+        if (i > 0 && board_info[i-1] != NULL) {
+            firmware = board_info[i-1]->firmware;
+            ret = burn_lcd_firmware(fd, firmware);
+            if (ret < 0) {
+                printf("\nFirmware burning failed\n");
+                return -1;
+            } else {
+                printf("\nFirmware burning successful\n");
+                return 0;
+            }
+        } else {
+            printf("Invalid selection. Please input argv[1] in 1 to %ld\n", sizeof(board_info)/sizeof(board_info[0]) - 1);
+            return -1;
+        }
     }
 
     while (1) {
