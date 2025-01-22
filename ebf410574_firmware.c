@@ -1,4 +1,4 @@
-#include "ebf410574_firmware.h"
+#include "board_firmware.h"
 #include "lcd_firmware.h"
 
 static unsigned char init_seq[] = {

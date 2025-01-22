@@ -6,11 +6,8 @@
 #include <string.h>
 #include <stdlib.h>
 #include "lcd_firmware.h"
-#include "ebf410125_firmware.h"
-#include "ebf410173_firmware.h"
-#include "ebf410177_firmware.h"
-#include "ebf410574_firmware.h"
-#include "ebf410575_firmware.h"
+#include "board_firmware.h"
+
 
 #define NVMEM_PATH      "/sys/bus/nvmem/devices/eeprom1/nvmem"
 #define FIRMWARE_MAGIC	0xDEAD5A5A
