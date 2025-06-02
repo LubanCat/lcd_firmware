@@ -19,6 +19,7 @@ static struct board_info *board_info[] = {
     &ebf410177,
     &ebf410574,
     &ebf410575,
+    &ebf410630,
     NULL,
 };
 

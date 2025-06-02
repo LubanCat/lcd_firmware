@@ -6,6 +6,7 @@ struct board_info ebf410173;
 struct board_info ebf410177;
 struct board_info ebf410574;
 struct board_info ebf410575;
+struct board_info ebf410630;
 
 #endif
 
