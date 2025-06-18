@@ -14,6 +14,7 @@
 
 
 static struct board_info *board_info[] = {
+    &ebf410125v1,
     &ebf410125,
     &ebf410173,
     &ebf410177,
