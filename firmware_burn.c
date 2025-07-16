@@ -10,6 +10,7 @@
 
 
 #define NVMEM_PATH      "/sys/bus/nvmem/devices/eeprom1/nvmem"
+// #define NVMEM_PATH      "/sys/bus/nvmem/devices/1-00510/nvmem"
 #define FIRMWARE_MAGIC	0xDEAD5A5A
 
 
