@@ -8,6 +8,7 @@ struct board_info ebf410177;
 struct board_info ebf410574;
 struct board_info ebf410575;
 struct board_info ebf410630;
+struct board_info lianxin_s8001280b;
 
 #endif
 
