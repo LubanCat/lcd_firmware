@@ -8,9 +8,14 @@
 #include "lcd_firmware.h"
 #include "board_firmware.h"
 
-
+// rk3562、rk3576、rk3588
 #define NVMEM_PATH      "/sys/bus/nvmem/devices/eeprom1/nvmem"
+// #define NVMEM_PATH      "/sys/bus/nvmem/devices/eeprom2/nvmem"
+
+// rk356x
 // #define NVMEM_PATH      "/sys/bus/nvmem/devices/1-00510/nvmem"
+// #define NVMEM_PATH      "/sys/bus/nvmem/devices/5-00510/nvmem"
+
 #define FIRMWARE_MAGIC	0xDEAD5A5A
 
 
