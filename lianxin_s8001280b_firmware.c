@@ -221,13 +221,13 @@ static struct display_timing timing = {
 
 static struct touchscreen_properties prop = {
 	.invert_x = true,
-	.invert_y = true,
-	.swap_x_y = false,
+	.invert_y = false,
+	.swap_x_y = true,
 };
 
 static struct firmware_header lcd_frame_header = {
 	.vendor = "Embedfire",
-	.model = "S8001280B1060B-32LB-V1",
+	.model = "S8001280B1060B-32C-V1",
 	.version = "v1.0",
 	.timing_entry = {
 		.offset = sizeof(struct firmware_header),
