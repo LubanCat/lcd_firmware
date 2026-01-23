@@ -131,3 +131,107 @@ sudo systemctl start firmware_burn.service
 
 
 以上，第一次启动时自动烧录固件，重置标志状态为burned，表示下次启动时无需烧录固件，烧录固件完成后自动重启；第二次启动时，重置标志状态为not_burned，表示下次启动时需烧录固件，此次启动不会自动重启，可观察屏幕有没有成功点亮；以此循环。
+
+## 自动绑定触摸
+
+当同时开启多个屏幕时需要绑定触摸到对应的屏幕，可使用桌面系统方式，当进入桌面时自动运行绑定脚本从而绑定触摸。
+
+在桌面登录用户的家目录下创建启动文件：
+
+```
+#以cat用户为例
+mkdir /home/cat/.config/autostart
+
+#创建配置文件
+vim /home/cat/.config/autostart/bind_touch.desktop
+```
+
+在bind_touch.desktop文件中添加以下内容：
+
+```
+[Desktop Entry]
+Type=Application
+Exec=/home/cat/bind_touch.sh
+Hidden=false
+NoDisplay=false
+X-GNOME-Autostart-enabled=true
+Name=My App
+Comment=Start My App on login
+```
+
+根据上面的自启动配置，创建自启动脚本，cd进入/home/cat/目录下，编写一个bind_touch.sh脚本，脚本内容如下：
+
+```
+#!/bin/bash
+
+export DISPLAY=:0.0
+
+TOUCH_IDS=($(xinput list | \
+    awk '/Virtual core pointer/,/Virtual core keyboard/ { 
+        if ($0 ~ /Goodix Capacitive TouchScreen/ && $0 ~ /id=/) {       
+        split($0, arr, "id=");       
+        split(arr[2], num, " ");     
+        print num[1];               
+        }
+    }' | grep -E '^[0-9]+$'))               
+
+DSI_LIST=($(xrandr -q | grep "DSI-[0-9] connected" | awk '{print $1}'))
+
+if [ ${#TOUCH_IDS[@]} -ge 2 ] && [ ${#DSI_LIST[@]} -ge 2 ]; then
+    # echo "绑定触摸屏ID ${TOUCH_IDS[0]} 到 ${DSI_LIST[0]}"
+    xinput map-to-output ${TOUCH_IDS[0]} ${DSI_LIST[0]}
+    # echo "绑定触摸屏ID ${TOUCH_IDS[1]} 到 ${DSI_LIST[1]}"
+    xinput map-to-output ${TOUCH_IDS[1]} ${DSI_LIST[1]}
+else
+    TARGET_DSI=""
+    for dsi in "${DSI_LIST[@]}"; do
+        RES_COUNT=0
+        IN_TARGET_DSI=0
+
+        while IFS= read -r line; do
+        if echo "$line" | grep -q "^$dsi connected"; then
+            IN_TARGET_DSI=1
+            continue
+        fi
+        if echo "$line" | grep -q "^DSI-[0-9] connected" && ! echo "$line" | grep -q "^$dsi connected"; then
+            IN_TARGET_DSI=0
+            continue
+        fi
+        if [ $IN_TARGET_DSI -eq 1 ] && echo "$line" | grep -q '[0-9]\+x[0-9]\+'; then
+            RES_COUNT=$((RES_COUNT + 1))
+        fi
+        done <<< "$(xrandr -q)"
+        
+        if [ $RES_COUNT -eq 1 ]; then
+        TARGET_DSI=$dsi
+        break
+        fi
+    done
+    
+    if [ -z "$TARGET_DSI" ]; then
+        TARGET_DSI="DSI-1"
+        if ! echo "${DSI_LIST[*]}" | grep -q "DSI-2"; then
+        TARGET_DSI=${DSI_LIST[0]}
+        fi
+    fi
+    
+    if [ ${#TOUCH_IDS[@]} -ge 1 ]; then
+        MAIN_TOUCH_ID=${TOUCH_IDS[0]}
+        # echo "绑定触摸屏ID $MAIN_TOUCH_ID 到 $TARGET_DSI"
+        xinput map-to-output $MAIN_TOUCH_ID $TARGET_DSI
+    else
+        # echo "错误：未找到任何Goodix触摸屏ID"
+        exit 1
+    fi
+fi
+```
+
+以上脚本实现的功能是如果存在两个屏幕则顺序绑定触摸，如果存在单个屏幕则绑定到对应的屏幕。
+
+添加脚本执行权限：
+
+```
+sudo chmod 777 /home/cat/bind_touch.sh
+```
+
+需注意，要进入桌面才会自动运行bind_touch.sh脚本，需自行添加桌面自动登录。
