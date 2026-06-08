@@ -2,6 +2,7 @@
 #define __LCD_FIRMWARE_H
 
 #include <stdbool.h>
+#include <stdint.h>
 
 #define BIT(x)          (1<<(x))
 
@@ -28,7 +29,7 @@ enum display_flags {
 };
 
 struct display_timing {
-    unsigned long pixelclock;
+    uint64_t pixelclock;
 
     unsigned int hactive;        /* hor. active video */
     unsigned int hfront_porch;   /* hor. front porch */
