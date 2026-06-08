@@ -225,7 +225,7 @@ int main(int argc, char **argv)
                 return 0;
             }
         } else {
-            printf("Invalid selection. Please input argv[1] in 1 to %ld\n", sizeof(board_info)/sizeof(board_info[0]) - 1);
+            printf("Invalid selection. Please input argv[1] in 1 to %zu\n", sizeof(board_info)/sizeof(board_info[0]) - 1);
             return -1;
         }
     }

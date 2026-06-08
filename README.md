@@ -20,7 +20,19 @@ mipi lcd epprom固件及其烧录工具
 - 当rk3576、rk3588板卡只接一个屏幕时eeprom无论是哪个接口都注册为eeprom1，当接两个屏幕时，dsi0注册为eeprom1、dsi1注册为eeprom2。
 - rk356x板卡根据i2c总线进行注册，dsi0为1-00510表示i2c1上的0x51地址的设备、dsi1为5-00510表示i2c5上的0x51地址的设备。
 
-修改定义后，直接make编译即可，编译得到的 firmware_burn 就是可烧录屏幕eeprom固件的可执行程序。而Makefile里面定义了板卡ip地址，修改为实际板卡ip，可直接将firmware_burn传到板卡。
+修改定义后，直接make编译即可
+```
+# 交叉编译arm64版本
+make CROSS_COMPILE=aarch64-linux-gnu-
+
+# 交叉编译armhf版本
+make CROSS_COMPILE=arm-linux-gnueabihf-
+
+# 在板子上编译
+make 
+```
+
+编译得到的 firmware_burn 就是可烧录屏幕eeprom固件的可执行程序。而Makefile里面定义了板卡ip地址，修改为实际板卡ip，可直接将firmware_burn传到板卡。
 
 ## 烧录固件
 

@@ -1,15 +1,16 @@
 SRCS = $(wildcard *.c)
 OBJS = $(patsubst %.c, %.o, $(SRCS))
-CC = aarch64-linux-gnu-gcc
 
+CROSS_COMPILE ?=
+CC = $(CROSS_COMPILE)gcc
+CFLAGS = -fcommon
 
 firmware_burn: $(OBJS)
-	$(CC) -o $@ $^ 
-	sshpass -p 'temppwd' scp $@ cat@192.168.103.145:~
+	$(CC) $(CFLAGS) -o $@ $^
+# 	sshpass -p 'temppwd' scp $@ cat@192.168.103.145:~
 
 %.o:%.c
-	$(CC) -c -o $@ $<
-
+	$(CC) $(CFLAGS) -c -o $@ $<
 
 clean:
 	rm -rf *.o firmware_burn
