@@ -133,63 +133,6 @@ static int burn_lcd_firmware(int fd, struct lcd_firmware *firmware)
 	return 0;
 }
 
-static int get_firmware_header(int fd, struct firmware_header *header)
-{
-	int ret;
-
-	ret = lseek(fd, 0, SEEK_SET);
-	if (ret < 0) {
-		printf("lseek header offset failed\n");
-		return -1;
-	}
-
-	ret = read(fd, header, sizeof(struct firmware_header));
-	if (ret < 0) {
-		printf("read header failed\n");
-	}
-
-	return 0;
-}
-
-static int get_firmware_display_timing(int fd, struct entry entry, struct display_timing *timing)
-{
-	int ret;
-
-	ret = lseek(fd, entry.offset, SEEK_SET);
-	if (ret < 0) {
-		printf("lseek timing offset failed\n");
-		return -1;
-	}
-
-	ret = read(fd, timing, entry.length);
-	if (ret < 0) {
-		printf("read timing failed\n");
-		return -1;
-	}
-
-	return 0;
-}
-
-static int get_firmware_init_sequence(int fd, struct entry entry, unsigned char *init_seq)
-{
-	int ret;
-
-	ret = lseek(fd, entry.offset, SEEK_SET);
-	if (ret < 0) {
-		printf("lseek init seq offset failed\n");
-		return -1;
-	}
-
-	ret = read(fd, init_seq, entry.length);
-	if (ret < 0) {
-		printf("read init sequence failed\n");
-		return -1;
-	}
-
-	return 0;
-}
-
-
 int main(int argc, char **argv)
 {
 	int fd;
