@@ -19,16 +19,16 @@ static unsigned char exit_seq[] = {
 };
 
 static struct display_timing timing = {
-    .pixelclock = 51668640,
-    .hactive = 1024,
-    .vactive = 600,
-    .hsync_len = 10,
-    .hback_porch = 160,
-    .hfront_porch = 160,
-    .vsync_len = 1,
-    .vback_porch = 23,
-    .vfront_porch = 12,
-    .flags = DISPLAY_FLAGS_HSYNC_LOW | DISPLAY_FLAGS_VSYNC_LOW | DISPLAY_FLAGS_DE_LOW | DISPLAY_FLAGS_PIXDATA_NEGEDGE,
+	.pixelclock = 51668640,
+	.hactive = 1024,
+	.vactive = 600,
+	.hsync_len = 10,
+	.hback_porch = 160,
+	.hfront_porch = 160,
+	.vsync_len = 1,
+	.vback_porch = 23,
+	.vfront_porch = 12,
+	.flags = DISPLAY_FLAGS_HSYNC_LOW | DISPLAY_FLAGS_VSYNC_LOW | DISPLAY_FLAGS_DE_LOW | DISPLAY_FLAGS_PIXDATA_NEGEDGE,
 };
 
 static struct touchscreen_properties prop = {
@@ -44,22 +44,22 @@ static struct firmware_header lcd_frame_header = {
 	.timing_entry = {
 		.offset = sizeof(struct firmware_header),
 		.length = sizeof(struct display_timing),
-    },
+	},
 
 	.init_seq_entry = {
 		.offset = sizeof(struct firmware_header) + sizeof(struct display_timing),
 		.length = sizeof(init_seq),
-    },
+	},
 
 	.exit_seq_entry = {
 		.offset = sizeof(struct firmware_header) + sizeof(struct display_timing) + sizeof(init_seq),
 		.length = sizeof(exit_seq),
-    },
+	},
 
 	.touchscreen_entry = {
 		.offset = sizeof(struct firmware_header) + sizeof(struct display_timing) + sizeof(init_seq) + sizeof(exit_seq),
 		.length = sizeof(struct touchscreen_properties),
-    },
+	},
 
 	.firmware_size = sizeof(struct firmware_header) + sizeof(struct display_timing) + sizeof(init_seq) + sizeof(exit_seq) + sizeof(struct touchscreen_properties),
 };
@@ -73,6 +73,6 @@ static struct lcd_firmware firmware = {
 };
 
 struct board_info ebf410173 = {
-    .model = "EBF410173_7inch_1024x600",
-    .firmware = &firmware,
+	.model = "EBF410173_7inch_1024x600",
+	.firmware = &firmware,
 };

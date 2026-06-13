@@ -12,6 +12,3 @@ struct board_info ebf410630;
 struct board_info lianxin_s8001280b;
 
 #endif
-
-
-
