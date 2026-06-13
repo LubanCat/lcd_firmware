@@ -37,6 +37,7 @@ static struct touchscreen_properties prop = {
 	.swap_x_y = false,
 };
 
+/*********************** v1 firmware ************************/
 static struct firmware_header lcd_frame_header = {
 	.vendor = "Embedfire",
 	.model = "STL7.0-60-132-K",
@@ -72,7 +73,39 @@ static struct lcd_firmware firmware = {
 	.exit_seq = exit_seq,
 };
 
+/*********************** TLV ************************/
+static struct tlv_firmware_version firmware_version = {
+	.main_version = 2,
+	.sub_version  = 0,
+	.vendor = "Embedfire",
+	.model  = "STL7.0-60-132-K",
+};
+
+static unsigned char init_seq_2lane[] = {
+	0x15, 0x00, 0x02, 0x80, 0xAC,
+	0x15, 0x00, 0x02, 0x81, 0xB8,
+	0x15, 0x00, 0x02, 0x82, 0x09,
+	0x15, 0x00, 0x02, 0x83, 0x78,
+	0x15, 0x00, 0x02, 0x84, 0x7F,
+	0x15, 0x00, 0x02, 0x85, 0xBB,
+	0x15, 0x00, 0x02, 0x86, 0x70,
+	0x15, 0x00, 0x02, 0xB2, 0x10,
+	0x05, 0xC8, 0x01, 0x11,
+	0x05, 0xC8, 0x01, 0x29,
+};
+
+static struct tlv_desc ebf410173_tlvs[] = {
+	{ TLV_TYPE_FIRMWARE_VERSION, &firmware_version, sizeof(firmware_version) },
+	{ TLV_TYPE_TIMING, &timing, sizeof(timing) },
+	{ TLV_TYPE_TOUCH, &prop, sizeof(prop) },
+	{ TLV_TYPE_EXIT_SEQ, &exit_seq, sizeof(exit_seq) },
+	{ TLV_TYPE_INIT_SEQ_4LANE, &init_seq, sizeof(init_seq) },
+	{ TLV_TYPE_INIT_SEQ_2LANE, init_seq_2lane, sizeof(init_seq_2lane) },
+};
+
 struct board_info ebf410173 = {
 	.model = "EBF410173_7inch_1024x600",
 	.firmware = &firmware,
+	.tlvs = ebf410173_tlvs,
+	.tlv_count = sizeof(ebf410173_tlvs) / sizeof(ebf410173_tlvs[0]),
 };

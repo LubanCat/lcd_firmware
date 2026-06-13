@@ -4,6 +4,7 @@
 #include <stdbool.h>
 #include <stdint.h>
 
+/*********************** v1 firmware ************************/
 #define BIT(x)          (1<<(x))
 
 enum display_flags {
@@ -80,6 +81,80 @@ struct lcd_firmware {
 struct board_info {
 	unsigned char model[64];
 	struct lcd_firmware *firmware;
+
+	/* v2 TLV扩展 */
+	struct tlv_desc *tlvs;
+	int tlv_count;
+};
+
+/*********************** v2 TLV firmware ************************/
+
+// ┌──────────────────────────────────────────────┐ 0x000000
+// │                v1 firmware                   │
+// │  firmware_header                             │
+// │  display_timing                              │
+// │  init_seq                                    │
+// │  exit_seq                                    │
+// │  touchscreen_properties                      │
+// │                                              │
+// │  firmware_size = TLV base offset             │
+// └──────────────────────────────────────────────┘
+// │            TLV Container (v2 area)           │
+// │                                              │
+// │  TLV Container Header                        │
+// │  ┌──────────────────────────────┐            │
+// │  │ magic = TLV_MAGIC            │            │
+// │  │ version =                    │            │
+// │  │ total_length                 │            │
+// │  └──────────────────────────────┘            │
+// │                                              │
+// │  TLV Entry #1                                │
+// │  TLV Entry #2                                │
+// │  TLV Entry #3                                │
+// │   ...                                        │
+// │                                              │
+// │  TLV_TYPE_END  ← 解析停止点                   │
+// │                                              │
+// └──────────────────────────────────────────────┘
+// │   Tail Padding (0x100 bytes ZERO CLEAN)      │
+// │   00 00 00 00 00 00 00 00 ...                │
+// └──────────────────────────────────────────────┘
+
+#define TLV_MAGIC 0x544C5632 // VLT2
+
+#define TLV_TYPE_FIRMWARE_VERSION  1
+#define TLV_TYPE_TIMING            2
+#define TLV_TYPE_TOUCH             3
+#define TLV_TYPE_EXIT_SEQ          4
+#define TLV_TYPE_INIT_SEQ_4LANE    5
+#define TLV_TYPE_INIT_SEQ_2LANE    6
+#define TLV_TYPE_END               0xFFFF
+
+struct tlv_container_header {
+	uint32_t magic;
+	uint16_t version;
+	uint16_t flags;
+	uint32_t total_length; /* payload length */
+	uint32_t crc32;        /* payload crc */
+} __attribute__((packed));
+
+struct tlv_firmware_version {
+	uint16_t main_version;
+	uint16_t sub_version;
+	unsigned char vendor[16];
+	unsigned char model[32];
+}__attribute__((packed));
+
+struct tlv_entry {
+	uint16_t type;
+	uint16_t length;
+	uint8_t value[0];
+};
+
+struct tlv_desc {
+	uint16_t type;
+	const void *data;
+	uint16_t len;
 };
 
 #endif
