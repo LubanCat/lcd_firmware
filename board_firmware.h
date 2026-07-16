@@ -3,6 +3,7 @@
 
 struct board_info ebf410125;
 struct board_info ebf410125v1;
+struct board_info ebf410125v2;
 struct board_info ebf410173;
 struct board_info ebf410173v1;
 struct board_info ebf410177;

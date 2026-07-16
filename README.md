@@ -21,6 +21,7 @@ mipi lcd epprom固件及其烧录工具
 - rk356x板卡根据i2c总线进行注册，dsi0为1-00510表示i2c1上的0x51地址的设备、dsi1为5-00510表示i2c5上的0x51地址的设备。
 
 修改定义后，直接make编译即可
+
 ```
 # 交叉编译arm64版本
 make CROSS_COMPILE=aarch64-linux-gnu-
@@ -29,7 +30,7 @@ make CROSS_COMPILE=aarch64-linux-gnu-
 make CROSS_COMPILE=arm-linux-gnueabihf-
 
 # 在板子上编译
-make 
+make
 ```
 
 编译得到的 firmware_burn 就是可烧录屏幕eeprom固件的可执行程序。而Makefile里面定义了板卡ip地址，修改为实际板卡ip，可直接将firmware_burn传到板卡。
@@ -54,6 +55,7 @@ LCD board list:
 [6] EBF410575_10.1inch_800x1280
 [7] EBF410630_3.5inch_320x480
 [8] lianxin_s8001280b_10.1inch_800x1280
+[9] EBF410125v2_5.5inch_1080x1920
 
 Which board would you like to burn? [1-8]: 3
 
@@ -64,7 +66,6 @@ Firmware version: v1.0
 Firmware Burning ...
 
 Firmware burning successful
-
 ```
 
 烧录完重启板卡即可。
@@ -141,7 +142,6 @@ sudo systemctl enable firmware_burn.service
 sudo systemctl start firmware_burn.service
 ```
 
-
 以上，第一次启动时自动烧录固件，重置标志状态为burned，表示下次启动时无需烧录固件，烧录固件完成后自动重启；第二次启动时，重置标志状态为not_burned，表示下次启动时需烧录固件，此次启动不会自动重启，可观察屏幕有没有成功点亮；以此循环。
 
 ## 自动绑定触摸
@@ -180,12 +180,12 @@ export DISPLAY=:0.0
 
 TOUCH_IDS=($(xinput list | \
     awk '/Virtual core pointer/,/Virtual core keyboard/ { 
-        if ($0 ~ /Goodix Capacitive TouchScreen/ && $0 ~ /id=/) {       
-        split($0, arr, "id=");       
-        split(arr[2], num, " ");     
-        print num[1];               
+        if ($0 ~ /Goodix Capacitive TouchScreen/ && $0 ~ /id=/) {     
+        split($0, arr, "id=");     
+        split(arr[2], num, " ");   
+        print num[1];             
         }
-    }' | grep -E '^[0-9]+$'))               
+    }' | grep -E '^[0-9]+$'))             
 
 DSI_LIST=($(xrandr -q | grep "DSI-[0-9] connected" | awk '{print $1}'))
 
@@ -213,20 +213,20 @@ else
             RES_COUNT=$((RES_COUNT + 1))
         fi
         done <<< "$(xrandr -q)"
-        
+      
         if [ $RES_COUNT -eq 1 ]; then
         TARGET_DSI=$dsi
         break
         fi
     done
-    
+  
     if [ -z "$TARGET_DSI" ]; then
         TARGET_DSI="DSI-1"
         if ! echo "${DSI_LIST[*]}" | grep -q "DSI-2"; then
         TARGET_DSI=${DSI_LIST[0]}
         fi
     fi
-    
+  
     if [ ${#TOUCH_IDS[@]} -ge 1 ]; then
         MAIN_TOUCH_ID=${TOUCH_IDS[0]}
         # echo "绑定触摸屏ID $MAIN_TOUCH_ID 到 $TARGET_DSI"
