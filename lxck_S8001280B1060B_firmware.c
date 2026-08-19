@@ -260,7 +260,7 @@ static struct lcd_firmware firmware = {
 	.exit_seq = exit_seq,
 };
 
-struct board_info lianxin_s8001280b = {
-    .model = "lianxin_s8001280b_10.1inch_800x1280",
+struct board_info lxck_s8001280b1060b = {
+    .model = "LXCK_S8001280B1060B_10.1inch_800x1280",
     .firmware = &firmware,
 };

@@ -22,16 +22,16 @@
 
 /*********************** boards ************************/
 static struct board_info *board_info[] = {
-	&ebf410125v1,
-	&ebf410125,
-	&ebf410173,
-	&ebf410173v1,
-	&ebf410177,
-	&ebf410574,
-	&ebf410575,
-	&ebf410630,
-	&lianxin_s8001280b,
-	&ebf410125v2,
+	&ebf410125_bs055fhen30,
+	&ebf410125_stl5530258k,
+	&ebf410125_stl5565818a,
+	&ebf410173_stl7060132k,
+	&ebf410173_stl70193861k,
+	&ebf410574_bsd1229a7hl27,
+	&ebf410177_stl10132331a,
+	&ebf410575_bsd1218a101kl68,
+	&ebf410630_hxr35027c20,
+	&lxck_s8001280b1060b,
 	NULL,
 };
 

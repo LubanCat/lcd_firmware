@@ -103,8 +103,8 @@ static struct tlv_desc ebf410173_tlvs[] = {
 	{ TLV_TYPE_INIT_SEQ_2LANE, init_seq_2lane, sizeof(init_seq_2lane) },
 };
 
-struct board_info ebf410173 = {
-	.model = "EBF410173_7inch_1024x600",
+struct board_info ebf410173_stl7060132k = {
+	.model = "EBF410173_STL7060132K_7inch_1024x600",
 	.firmware = &firmware,
 	.tlvs = ebf410173_tlvs,
 	.tlv_count = sizeof(ebf410173_tlvs) / sizeof(ebf410173_tlvs[0]),

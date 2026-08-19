@@ -104,7 +104,7 @@ static struct lcd_firmware firmware = {
 	.exit_seq = exit_seq,
 };
 
-struct board_info ebf410173v1 = {
-    .model = "EBF410173v1_7inch_1024x600",
+struct board_info ebf410173_stl70193861k = {
+    .model = "EBF410173_STL70193861K_7inch_1024x600",
     .firmware = &firmware,
 };
