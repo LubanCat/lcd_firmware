@@ -39,33 +39,30 @@ make
 
 开启xxx-generic-overlay.dtbo通用屏幕插件，重启板卡
 
-然后运行firmware_burn，输入需要屏幕编号，如EBF410173_7inch_1024x600
+然后运行firmware_burn，输入需要屏幕编号，如EBF410173_STL7060132K_7inch_1024x600
 
 ```
 root@lubancat:/home/cat# ./firmware_burn
 
-===============================================
-LCD board list:
-
-[1] EBF410125v1_5.5inch_1080x1920
-[2] EBF410125_5.5inch_1080x1920
-[3] EBF410173_7inch_1024x600
-[4] EBF410177_10.1inch_800x1280
-[5] EBF410574_7inch_800x1280
-[6] EBF410575_10.1inch_800x1280
-[7] EBF410630_3.5inch_320x480
-[8] lianxin_s8001280b_10.1inch_800x1280
-[9] EBF410125v2_5.5inch_1080x1920
-
-Which board would you like to burn? [1-8]: 3
-
-Selected board: EBF410173_7inch_1024x600
+select board...
+[1] EBF410125_BS055FHEN30_5.5inch_1080x1920
+[2] EBF410125_STL5530258K_5.5inch_1080x1920
+[3] EBF410125_STL5565818A_5.5inch_1080x1920
+[4] EBF410173_STL7060132K_7inch_1024x600
+[5] EBF410173_STL70193861K_7inch_1024x600
+[6] EBF410574_BSD1229A7HL27_7inch_800x1280
+[7] EBF410177_STL10132331A_10.1inch_800x1280
+[8] EBF410575_BSD1218A101KL68_10.1inch_800x1280
+[9] EBF410630_HXR35027C20_3.5inch_320x480
+[10] LXCK_S8001280B1060B_10.1inch_800x1280
+4
 LCD vendor: Embedfire
 LCD model: STL7.0-60-132-K
 Firmware version: v1.0
 Firmware Burning ...
-
-Firmware burning successful
+v1 firmware burned OK
+TLV burned OK
+ALL firmware burned successfully
 ```
 
 烧录完重启板卡即可。
