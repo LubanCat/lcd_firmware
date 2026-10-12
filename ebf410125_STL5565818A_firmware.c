@@ -29,14 +29,14 @@ static unsigned char exit_seq[] = {
 };
 
 static struct display_timing timing = {
-    .pixelclock = 131376000,
+    .pixelclock = 130368000,
     .hactive = 1080,
     .vactive = 1920,
     .hsync_len = 10,
     .hback_porch = 20,
     .hfront_porch = 10,
     .vsync_len = 5,
-    .vback_porch = 20,
+    .vback_porch = 5,
     .vfront_porch = 10,
     .flags = DISPLAY_FLAGS_HSYNC_LOW | DISPLAY_FLAGS_VSYNC_LOW | DISPLAY_FLAGS_DE_LOW | DISPLAY_FLAGS_PIXDATA_NEGEDGE,
 };
